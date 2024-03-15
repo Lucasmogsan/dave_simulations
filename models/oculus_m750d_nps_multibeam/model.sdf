@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="oculus_m750d">
+    <link name="forward_sonar_link">
+      <inertial>
+        <pose>0 0 0 3.14159265359 0 0</pose>
+        <mass>4.35</mass>
+        <inertia>
+          <ixx>0.0360</ixx>          <!-- 1/12ml^2 -->
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0</iyy>
+          <iyz>0</iyz>
+          <izz>0.0360</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0 0 0 3.14159265359 0 -1.57079632679</pose>
+        <geometry>
+          <mesh>
+            <uri>model://oculus_m750d_nps_multibeam/meshes/COLLISION-Oculus-M-series.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 3.14159265359 0 -1.57079632679</pose>
+        <geometry>
+          <mesh>
+            <uri>model://oculus_m750d_nps_multibeam/meshes/Oculus-M-series.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="image_sonar" type="depth">
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <camera>
+          <!-- 120 degrees for the oculus-M750d -->
+          <horizontal_fov>2.26892803</horizontal_fov>
+          <image>
+            <width>512</width>
+            <!-- Set vertical FOV by setting image height -->
+            <!-- Approx 2 times the spec sheet (sepc: 20 deg.) -->
+            <height>228</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>            <!-- optimal ?? -->
+            <far>40</far>
+          </clip>
+          <depth_camera>
+            <output>depths</output>
+          </depth_camera>
+          <save enabled="false">
+            <path>/tmp/camera</path>
+          </save>
+        </camera>
+        <plugin filename="libnps_multibeam_sonar_ros_plugin.so" name="forward_sonar">
+          <!-- Sonar properties -->
+          <verticalFOV>20</verticalFOV>
+          <sonarFreq>750e3</sonarFreq>    <!-- 750e3 or 1200e3 -->
+          <bandwidth>29.9e3</bandwidth>   <!-- TODO -->
+          <soundSpeed>1500</soundSpeed>
+          <sourceLevel>220</sourceLevel>  <!-- TODO -->
+          <maxDistance>10</maxDistance>   <!-- TODO -->
+          <constantReflectivity>true</constantReflectivity>
+          <!-- custom SDF Tag works when constantReflectivity is false -->
+          <customSDFTagReflectivity>false</customSDFTagReflectivity>
+          <!-- The CSV databsefile is located at the worlds folder -->
+          <customSDFTagDatabaseFile>customSDFTagDatabase.csv</customSDFTagDatabaseFile>
+          <!-- reflectivity database (by model name) works -->
+          <!-- when both constantReflectivity and customSDFTagReflectivity are false -->
+          <reflectivityDatabaseFile>variationalReflectivityDatabase.csv</reflectivityDatabaseFile>
+          <raySkips>10</raySkips>       <!-- TODO -->
+          <sensorGain>0.2</sensorGain>  <!-- TODO -->
+          <plotScaler>0</plotScaler>
+          <writeLog>false</writeLog>
+          <debugFlag>true</debugFlag>
+          <writeFrameInterval>5</writeFrameInterval>
+          <artificialVehicleVibration>true</artificialVehicleVibration>
+          <!-- This name is prepended to ROS topics -->
+          <cameraName>oculus_m750d</cameraName>
+          <!-- ROS publication topics -->
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>image_raw/camera_info</cameraInfoTopicName>
+          <pointCloudTopicName>point_cloud</pointCloudTopicName>
+          <depthImageTopicName>image_depth</depthImageTopicName>
+          <depthImageCameraInfoTopicName>image_depth/camera_info</depthImageCameraInfoTopicName>
+          <sonarImageRawTopicName>sonar_image_raw</sonarImageRawTopicName>
+          <sonarImageTopicName>sonar_image</sonarImageTopicName>
+          <frameName>forward_sonar_optical_link</frameName>
+        </plugin>
+      </sensor>
+    </link>
+  </model>
+</sdf>
