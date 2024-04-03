@@ -17,6 +17,7 @@ TODO:
 
 # How to run DFLS environment container:
 
+1. (docker compose up dev)
 1. Open VSCode
 1. Click the connection and choose Reopen in container (opens as dev container)
 1. Install/clone/activate git submodules which entails the custom / configurable ros packages (e.g. this package)
@@ -25,13 +26,13 @@ TODO:
     ```bash
     catkin build
     ```
+1. source
+    ```bash
+    source devel/setup.bash
+    ```
 1. Run the launch file
     ```bash
-    roslaunch dave_simulations launch/dual_sonar_config_1.launch
+    roslaunch dave_simulations dual_sonar_config.launch world_number:=2
     ```
 
-
-copy from dev container:
-```bash
-docker cp dfls-dev-1:overlay_ws/src/dave_custom .
-```
+dev container source is mounted at ```~/packages```

@@ -42,7 +42,7 @@
     <include>
       <uri>model://blueview_p900_nps_multibeam</uri>
       <name>blueview_p900_1</name>
-      <pose>2.1 1.0 2.1 1.57079632679 0 1.5707963268</pose>
+      <pose>2.1 1.0 2.1 3.14159265359 0 1.91986218</pose>   <!-- Horizontal, rotated 20 deg from forward (110deg) ... forward is 1.5707963268-->
       <static>true</static>
     </include>
 
@@ -51,7 +51,7 @@
     <include>
       <uri>model://oculus_m750d_nps_multibeam</uri>
       <name>oculus_m750d_1</name>
-      <pose>2.1 1.0 2.0 3.14159265359 0 1.5707963268</pose>
+      <pose>2.1 1.0 2.0 3.14159265359 0 1.22173048</pose>  <!-- Horizontal, rotated -20 deg from forward (70 deg) ... forward is 1.5707963268 -->
       <static>true</static>
     </include>
 

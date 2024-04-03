@@ -3,9 +3,11 @@
   <!-- inspiration from https://github.com/Field-Robotics-Lab/nps_uw_multibeam_sonar/tree/main/launch -->
 
   <arg name="verbose" default="false"/>
+  <arg name="world_number" default="1"/> <!-- Argument to choose world -->
+
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find dave_simulations)/worlds/sonar_tank_dual_config_1.world"/>
+    <arg name="world_name" value="$(find dave_simulations)/worlds/sonar_tank_dual_config_$(arg world_number).world"/>
     <arg name="verbose" value="$(arg verbose)"/>
   </include>
 
@@ -24,14 +26,6 @@
     <param name="autosize" value="true" />
     <param name="filename_format" value="/tmp/SonarImage_capture_2_%04i.jpg" />
   </node>
-
-    <!-- image_view for sonar image 3 -->
-  <!-- <node name="image_view_sonar_3" pkg="image_view" type="image_view"
-        args="image:=/blueview_m450/sonar_image">
-    <param name="window_name" value="blueview_m450" />
-    <param name="autosize" value="true" />
-    <param name="filename_format" value="/tmp/SonarImage_capture_3_%04i.jpg" />
-  </node> -->
 
   <node pkg="tf" type="static_transform_publisher" name="multibeam_sonar_base_link"
         args="0 0 0 0 0 0 map forward_sonar_optical_link 50" />
