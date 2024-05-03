@@ -32,7 +32,7 @@ TODO:
     ```
 1. Run the launch file
     ```bash
-    roslaunch dave_simulations dual_sonar_config.launch world_number:=2
+    roslaunch dave_simulations dual_sonar_config.launch world_number:=1
     ```
 
 dev container source is mounted at ```~/packages```
